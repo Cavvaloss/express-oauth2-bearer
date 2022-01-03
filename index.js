@@ -33,6 +33,9 @@ module.exports.auth = function(params) {
 
   return async (req, res, next) => {
     try {
+      if(req.body.key == process.env.SHLISTLY_STATIC_KEY){
+        next();
+      }
       const token = params.getToken(req);
       req.auth =  await params.strategy(token);
       if (!req.auth) {
